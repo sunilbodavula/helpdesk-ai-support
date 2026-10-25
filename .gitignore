@@ -1,0 +1,38 @@
+﻿# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+build/
+coverage/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local database files
+*.sqlite
+*.db
+
+# Local database and container data
+pgdata/
+.docker-data/
+
+# Temporary files
+*.tmp
+*.swp
