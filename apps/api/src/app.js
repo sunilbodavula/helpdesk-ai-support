@@ -1,4 +1,5 @@
 const express = require('express');
+const pool = require('./db/pool');
 
 const app = express();
 
@@ -15,6 +16,24 @@ app.get('/health', (_req, res) => {
         service: 'helpdesk-api',
         timestamp: new Date().toISOString(),
     });
+});
+
+app.get('/health/ready', async (_req, res) => {
+    try{
+        await pool.query('SELECT 1');
+
+        res.status(200).json({
+            status: 'ready',
+            database: 'connected',
+        });
+    }catch(error){
+        console.error('Database readiness check failed:', error.message);
+
+        res.status(503).json({
+            status: 'not_ready',
+            database: 'disconnected',
+        });
+    }
 });
 
 module.exports = app;
