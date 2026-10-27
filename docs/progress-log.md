@@ -34,3 +34,22 @@
 - Verified the health endpoint locally.
 - Automated test: 1 passed, 0 failed.
 - Next: Design the PostgreSQL schema and implement database migrations.
+
+## Day 3 — PostgreSQL Development Environment
+
+- Added a Docker Compose configuration for PostgreSQL 16.
+- Configured local database environment variables.
+- Added persistent database storage using a named Docker volume.
+- Added a PostgreSQL health check.
+- Verified database connectivity using psql.
+- Next: Integrate PostgreSQL with Express and implement database migrations.
+
+## Day 4 — Express and PostgreSQL Integration
+
+- Installed the PostgreSQL Node.js driver.
+- Created a reusable database connection pool.
+- Added a database readiness endpoint.
+- Added graceful database pool shutdown.
+- Verified database connectivity through the Express API.
+- Automated tests: 1 passed, 0 failed.
+- Next: Create version-controlled database migrations and the initial helpdesk schema.
