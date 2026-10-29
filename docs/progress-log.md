@@ -53,3 +53,10 @@
 - Verified database connectivity through the Express API.
 - Automated tests: 1 passed, 0 failed.
 - Next: Create version-controlled database migrations and the initial helpdesk schema.
+
+## Day 5 — First Database Migration
+
+- Created the initial tickets table migration.
+- Added primary key, required fields, status and priority constraints.
+- Applied the migration to the local PostgreSQL database.
+- Verified the table structure and tested inserting and retrieving a ticket.
