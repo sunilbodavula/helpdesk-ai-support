@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('./db/pool');
+const ticketRoutes = require('./routes/ticket');
 
 const app = express();
 
@@ -8,6 +9,8 @@ app.disable('x-powered-by');
 
 // Parse incoming json request bodies
 app.use(express.json({limit: '1mb'}));
+
+app.use('/api/tickets', ticketRoutes);
 
 //Health-check endpoint.
 app.get('/health', (_req, res) => {

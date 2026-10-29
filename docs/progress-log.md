@@ -60,3 +60,14 @@
 - Added primary key, required fields, status and priority constraints.
 - Applied the migration to the local PostgreSQL database.
 - Verified the table structure and tested inserting and retrieving a ticket.
+
+- Implemented POST /api/tickets to create support tickets.
+- Added input validation for title, description, and priority.
+- Integrated ticket creation with PostgreSQL using parameterized SQL queries.
+- Used INSERT ... RETURNING to retrieve the newly created ticket.
+- Fixed an asynchronous JavaScript issue by adding await to the database query.
+- Implemented GET /api/tickets to retrieve all support tickets.
+- Added ticket count to the API response.
+- Sorted tickets by creation time, with the newest tickets returned first.
+- Verified that tickets were successfully created and persisted in PostgreSQL.
+- Verified that the listing endpoint returned all four existing tickets.
