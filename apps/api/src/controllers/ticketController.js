@@ -61,22 +61,91 @@ async function createTicket(req, res){
 }
 
 async function listTickets(req, res){
+    //read and validate pagination parameters
+    const pageValue = req.query.page ?? '1';
+    const pageSizeValue = req.query.pageSize ?? '10';
+
+    if(typeof pageValue !== 'string' || !/^[1-9]\d*$/.test(pageValue)){
+        return res.status(400).json({
+            error: 'Page must be a positive integer.',
+        });
+    }
+
+    if(typeof pageSizeValue !== 'string' || !/^[1-9]\d*$/.test(pageSizeValue)){
+        return res.status(400).json({
+            error: 'Page size must be a positive integer.',
+        });
+    }
+
+    const page = Number(pageValue);
+    const pageSize = Number(pageSizeValue);
+
+    if(
+        !Number.isSafeInteger(page) ||
+        !Number.isSafeInteger(pageSize) ||
+        pageSize > 100 ||
+        !Number.isSafeInteger((page - 1) * pageSize)
+    ){
+        return res.status(400).json({
+            error: 'Invalid pagination parameters',
+        })
+    }
+
+    //Read and validate the search term.
+    const search = req.query.search ?? '';
+
+    if(typeof search !== 'string' || search.trim().length > 100){
+        return res.status(400).json({
+            error: 'Search must be a string of at most 100 characters',
+        });
+    }
+
+    const searchPattern = `%${search.trim()}%`;
+    const offset = (page - 1) * pageSize;
+
     try {
-        const query = `
-            SELECT id, title, description, status, priority,
-                created_at, updated_at
+        const countQuery = `
+            SELECT COUNT(*)::int AS total
             FROM tickets
-            ORDER BY created_at DESC, id DESC;
+            WHERE title ILIKE $1
         `;
 
-        const result = await pool.query(query);
+        const ticketQuery = `
+        SELECT 
+            id,
+            title, 
+            description,
+            status,
+            priority,
+            created_at,
+            updated_at
+        FROM tickets 
+        WHERE title ILIKE $1
+        ORDER BY created_at DESC, id DESC
+        LIMIT $2
+        OFFSET $3
+        `;
+
+        const [countResult, ticketResult] = await Promise.all([
+            pool.query(countQuery, [searchPattern]),
+            pool.query(ticketQuery, [
+                searchPattern,
+                pageSize,
+                offset,
+            ]),
+        ]);
+
+        const total = countResult.rows[0].total;
 
         return res.status(200).json({
-            count: result.rows.length,
-            tickets: result.rows,
+            page,
+            pageSize,
+            total,
+            totalPages: Math.ceil(total / pageSize),
+            tickets: ticketResult.rows,
         });
     }catch(error){
-        console.error('Failed to load tickets: ', error.message);
+        console.error('Failed to list tickets: ', error.message);
 
         return res.status(500).json({
             error: 'Unable to retrieve tickets. Please try again later.',

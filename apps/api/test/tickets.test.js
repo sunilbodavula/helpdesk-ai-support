@@ -36,3 +36,20 @@ test('POST /api/tickets rejects an invalid priority', async() => {
         'Priority must be low, medium, high or urgent.'
     );
 });
+
+test('POST /api/tickets rejects a missing description', async() => {
+    const response = await request(app)
+    .post('/api/tickets')
+    .send({
+        title: 'Cannot access dashboard',
+        description: '',
+        priority: 'high',
+    });
+
+    assert.equal(response.status, 400);
+
+    assert.equal(
+        response.body.error,
+        'Description is required and must be a non-empty string'
+    );
+});
