@@ -71,3 +71,44 @@
 - Sorted tickets by creation time, with the newest tickets returned first.
 - Verified that tickets were successfully created and persisted in PostgreSQL.
 - Verified that the listing endpoint returned all four existing tickets.
+
+## Day 6 – Ticket API Development
+
+- Implemented the `POST /api/tickets` endpoint to create new support tickets.
+- Implemented the `GET /api/tickets` endpoint to retrieve existing tickets.
+- Added request validation for ticket title, description, and priority.
+- Used parameterized SQL queries to interact with PostgreSQL safely.
+- Used `INSERT ... RETURNING` to retrieve newly created ticket details.
+- Debugged and fixed an asynchronous execution issue caused by a missing `await`.
+- Verified ticket creation and retrieval through API testing.
+- Confirmed that ticket records were successfully persisted in PostgreSQL.
+
+## Day 7 – Automated API Validation Testing
+
+- Started implementing automated tests for the ticket API.
+- Added test cases for missing ticket titles, empty descriptions, and invalid priority values.
+- Verified that invalid requests are handled correctly.
+- Practised testing asynchronous API operations.
+- Learned how database transactions and rollback help maintain database consistency during testing.
+
+## Day 8 – Pagination and Search
+
+- Implemented pagination for the `GET /api/tickets` endpoint.
+- Used SQL `LIMIT` and `OFFSET` to retrieve records page by page.
+- Added title-based search functionality using PostgreSQL `ILIKE`.
+- Used parameterized queries for search operations.
+- Added validation for page number, page size, and search input.
+- Included pagination metadata in the API response.
+- Tested pagination, searching, and invalid query parameters.
+
+## Day 9 – Integration Testing and Database Configuration Fix
+
+- Expanded automated API testing using Node.js built-in test runner and Supertest.
+- Added integration tests for ticket pagination and title-based search.
+- Tested different pages, search results, and invalid query parameters.
+- Identified a PostgreSQL connection failure during automated testing.
+- Investigated the issue and found that tests imported the application directly without loading the root `.env` file.
+- Fixed environment variable loading in the database connection pool.
+- Successfully executed all 10 automated API tests.
+
+**Key learning:** Understood why an application can work when started through its server entry point but fail during automated testing due to differences in application initialization and environment configuration.
