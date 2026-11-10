@@ -112,3 +112,12 @@
 - Successfully executed all 10 automated API tests.
 
 **Key learning:** Understood why an application can work when started through its server entry point but fail during automated testing due to differences in application initialization and environment configuration.
+
+## Day 10 – PostgreSQL Indexing and Query Performance
+
+- Started reviewing PostgreSQL indexing strategies for the ticket management API.
+- Identified pagination, sorting, and title search as important query-performance areas.
+- Studied the purpose of B-tree, GIN, and composite indexes.
+- Began investigating existing database indexes.
+- Introduced EXPLAIN ANALYZE for understanding PostgreSQL query execution plans.
+- Next: identify appropriate indexes based on actual query patterns and execution plans.
